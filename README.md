@@ -5,10 +5,17 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
 [![Paper DOI](https://img.shields.io/badge/Paper-Zenodo--DOI-blue.svg)](https://doi.org/10.5281/zenodo.22804666)
+[![Program Guide](https://img.shields.io/badge/Guide-Program%20Architecture-purple.svg)](PROGRAM_GUIDE.md)
 [![Author: Yoshihiro Honda](https://img.shields.io/badge/Author-Yoshihiro%20Honda-orange.svg)](#author)
 
 > **Can multi-solvent solubility ($\log S$), co-crystallization, and structural reconstruction be predicted without brute-force Quantum Mechanics (DFT/MD) or black-box machine learning (GNNs)?**  
 > **Yes.** This repository presents a novel **Spectral Graph Theory** framework that calculates the **Fiedler value ($\lambda_2$)** with a 3D water lone-pair tetrahedral kernel ($109.5^\circ$) to predict multi-solvent solubility profiles, co-crystal dimer orientations, and inverse structural tomography at $\mathcal{O}(N \log N)$ computational complexity.
+
+---
+
+## 📘 Complete Program Architecture Guide
+For a detailed breakdown of code files, engines, pharmaceutical PoC benchmark scripts, and 3D WebGL viewers, see:
+👉 📘 **[PROGRAM_GUIDE.md](PROGRAM_GUIDE.md)** (プログラム全構成・使用方法解説ガイド)
 
 ---
 
@@ -45,6 +52,7 @@
 * 📄 **[Zenodo Paper Link](https://doi.org/10.5281/zenodo.22804666)**: *"Molecular Solubility, Hydration Shells, and Inverse Spectral Tomography via 3D Lone-Pair Fiedler Vector Optimization"* (DOI: `10.5281/zenodo.22804666`)
 * 📄 **English Paper Manuscript**: [paper2_solubility_draft.md](paper2_solubility_draft.md)
 * 📄 **Japanese Paper Translation (日本語訳)**: [paper2_solubility_draft_ja.md](paper2_solubility_draft_ja.md)
+* 📘 **Program Architecture Guide**: [PROGRAM_GUIDE.md](PROGRAM_GUIDE.md)
 
 ---
 
