@@ -1,70 +1,86 @@
-# 🧬 分子溶解度・水和・構造逆推定シミュレーター：プログラム全構成ガイド
+# 🧬 Program Architecture & Usage Guide (プログラム全構成ガイド)
 
-本ドキュメントは、本リポジトリ（`fiedler-water-solubility-sim`）に含まれるコアエンジン、創薬PoC検証スクリプト、3D WebGLビューアの役割と使用方法を体系的にまとめたガイドです。
+This document provides a comprehensive overview of the core engines, pharmaceutical benchmark scripts, and 3D WebGL viewers included in the `fiedler-water-solubility-sim` repository.
 
----
-
-## 1. 核心計算エンジン（Core Engines）
-
-論文（DOI: `10.5281/zenodo.22804666`）で発表された数理理論を直接実行する 3 大コアエンジンです。
-
-### ① 3D水分子Lone-Pair四面体幾何エンジン
-* **ファイル**: [`fiedler_tetrahedral_lonepair_water_engine.py`](fiedler_tetrahedral_lonepair_water_engine.py)
-* **対応論文セクション**: 第2.1節
-* **機能**: 水分子の孤立電子対（Lone Pair: $109.5^\circ$）の3D指向性を規格化グラフ・ラプラシアン $\mathbf{L}_{\text{norm}}$ に組み込み、水和シェルの秩序化および Fiedler値（$\lambda_2$）を算定。
-
-### ② 一発解析アライメント・二量体最適化エンジン
-* **ファイル**: [`fiedler_dimer_interaction_optimizer.py`](fiedler_dimer_interaction_optimizer.py)
-* **対応論文セクション**: 第2.3節
-* **機能**: Fiedler固有ベクトルの位相符号（$\mathbf{v}_{2,i} \cdot \mathbf{v}_{2,j} < 0$）から最良相互作用部位を特定し、Kabsch SVD（特異値分解）を用いて格子探索なしで最良配向を一発アナリティック算出。
-
-### ③ 8大溶媒Fiedlerプロファイル一括計算エンジン
-* **ファイル**: [`multi_solvent_fiedler_engine.py`](multi_solvent_fiedler_engine.py)
-* **対応論文セクション**: 第2.2節・第3.1節
-* **機能**: 水、エタノール、DMSO、アセトン、メタノール、1-ブタノール、1-ヘキサノール、ジエチルエーテルの8溶媒中でのFiedler指標および溶解度プロファイルを一括評価。
+*Note: A full Japanese translation is provided in the second half of this document. (後半に日本語訳を併記しています。)*
 
 ---
 
-## 2. 論文ベンチマーク検証スクリプト
+## 🇺🇸 English Guide
 
-論文内の実験比較表や逆問題解析を再現・実行するためのスクリプト群です。
+### 1. Core Computational Engines
 
-### ① 創薬医薬品PoC検証スクリプト
-* **ファイル**: [`run_pharmaceutical_drug_discovery_poc.py`](run_pharmaceutical_drug_discovery_poc.py)
-* **対応論文セクション**: 第3.1節（表1）
-* **計算対象**: カルバマゼピン（CBZ）、ニコチンアミド（NICO）、D-マンニトール、テレフタル酸
-* **内容**: 単分子水和 Fiedler値と二量体自己会合利得の解離から「結晶化アノマリー指標 (FCAI)」を算出し、難溶性メカニズムを判定。
+These three primary engines implement the theoretical framework published in our paper (Zenodo DOI: [`10.5281/zenodo.22804666`](https://doi.org/10.5281/zenodo.22804666)).
 
-### ② 逆問題：8溶媒溶解度プロファイルからの構造逆推定
-* **ファイル**: [`fiedler_inverse_solubility_structure_reconstruction.py`](fiedler_inverse_solubility_structure_reconstruction.py)
-* **対応論文セクション**: 第3.2節
-* **内容**: 8溶媒の溶解度指紋ベクトル $\mathbf{y}_{\text{exp}} \in \mathbb{R}^8$ から、1.2秒未満で未知分子の骨格および官能基分布を逆特定。
-
-### ③ 混合溶媒（共溶媒）相図解析
-* **ファイル**: [`run_mixed_solvent_fractal_fiedler_analysis.py`](run_mixed_solvent_fractal_fiedler_analysis.py)
-* **対応論文セクション**: 第3.3節
-* **内容**: Water-DMSO, Water-Ethanol 混合溶媒における非線形溶解度ピーク（パーコレーション開通）を解析。
-
----
-
-## 3. 3D WebGL インタラクティブビューア
-
-ブラウザで開くだけで、分子と水和水素結合ネットワークを3D表示するツールです。
-
-* [`active_fractal_3d_glycerin.html`](active_fractal_3d_glycerin.html): グリセリンの3D水和ネットワーク表示
-* [`real_space_3d_1_butanol.html`](real_space_3d_1_butanol.html): 1-ブタノールの水和3D表示
-* [`real_space_3d_terephthalic.html`](real_space_3d_terephthalic.html): テレフタル酸の二量体・晶析3D表示
+* **3D Water Lone-Pair Tetrahedral Geometry Engine**:
+  * File: [`fiedler_tetrahedral_lonepair_water_engine.py`](fiedler_tetrahedral_lonepair_water_engine.py)
+  * Paper Section: Section 2.1
+  * Description: Integrates water's tetrahedral lone-pair acceptors/donors ($109.5^\circ$) into a normalized graph Laplacian $\mathbf{L}_{\text{norm}}$, quantifying hydration shell ordering and algebraic connectivity ($\lambda_2$).
+* **Grid-Free Analytical Orientation & Dimer Alignment Engine**:
+  * File: [`fiedler_dimer_interaction_optimizer.py`](fiedler_dimer_interaction_optimizer.py)
+  * Paper Section: Section 2.3
+  * Description: Identifies topological complementary interaction sites via Fiedler vector signs ($\mathbf{v}_{2,i} \cdot \mathbf{v}_{2,j} < 0$) and computes optimal 3D dimer/solvent orientation analytically in a single step using Kabsch Singular Value Decomposition (SVD).
+* **Multi-Solvent 8-Solvent Profile Engine**:
+  * File: [`multi_solvent_fiedler_engine.py`](multi_solvent_fiedler_engine.py)
+  * Paper Section: Section 2.2 & 3.1
+  * Description: Batch computes Fiedler indices ($\lambda_2$) and solubility profiles across 8 benchmark organic solvents (Water, Ethanol, DMSO, Acetone, Methanol, 1-Butanol, 1-Hexanol, Diethyl Ether).
 
 ---
 
-## 💻 実行手順の例
+### 2. Pharmaceutical Benchmark & PoC Scripts
 
-### 例1: 創薬医薬品ベンチマーク（表1）の再計算
+* **Pharmaceutical Drug Discovery PoC Script**:
+  * File: [`run_pharmaceutical_drug_discovery_poc.py`](run_pharmaceutical_drug_discovery_poc.py)
+  * Paper Table: Table 1 (Section 3.1)
+  * Benchmarks: Carbamazepine (CBZ), Nicotinamide (NICO), D-Mannitol, Terephthalic Acid.
+  * Description: Disentangles micro-hydration attraction ($\lambda_{2, \text{solute-water}}$) from solid-state crystal lattice packing energy ($\Delta f_{\text{dimer}}$) to compute the Fiedler Crystallization Anomaly Index (FCAI).
+* **Inverse Spectral Tomography: Molecular Reconstruction**:
+  * File: [`fiedler_inverse_solubility_structure_reconstruction.py`](fiedler_inverse_solubility_structure_reconstruction.py)
+  * Paper Section: Section 3.2
+  * Description: Reconstructs an unknown solute's 3D functional groups and molecular architecture in < 1.2 seconds from an 8-solvent solubility fingerprint vector ($\mathbf{y}_{\text{exp}} \in \mathbb{R}^8$).
+* **Cosolvency Phase Diagram Analysis**:
+  * File: [`run_mixed_solvent_fractal_fiedler_analysis.py`](run_mixed_solvent_fractal_fiedler_analysis.py)
+  * Paper Section: Section 3.3
+  * Description: Analyzes non-linear solubility peaks and clathrate-like percolation transitions in mixed solvent systems (Water-DMSO, Water-Ethanol).
+
+---
+
+### 3. Interactive 3D WebGL Viewers
+
+* [`active_fractal_3d_glycerin.html`](active_fractal_3d_glycerin.html): 3D hydration network viewer for Glycerin
+* [`real_space_3d_1_butanol.html`](real_space_3d_1_butanol.html): 3D hydration viewer for 1-Butanol
+* [`real_space_3d_terephthalic.html`](real_space_3d_terephthalic.html): 3D dimer crystallization viewer for Terephthalic Acid
+
+---
+
+## 🇯🇵 日本語ガイド (Japanese Guide)
+
+### 1. 核心計算エンジン
+
+* **3D水分子Lone-Pair四面体幾何エンジン**: [`fiedler_tetrahedral_lonepair_water_engine.py`](fiedler_tetrahedral_lonepair_water_engine.py)
+  * 水分子の孤立電子対（$109.5^\circ$）の3D方向性を規格化ラプラシアン $\mathbf{L}_{\text{norm}}$ に組み込み、水和シェル秩序化と Fiedler値（$\lambda_2$）を算定（論文第2.1節）。
+* **一発解析アライメント・二量体最適化エンジン**: [`fiedler_dimer_interaction_optimizer.py`](fiedler_dimer_interaction_optimizer.py)
+  * Fiedler固有ベクトルの位相符号（$\mathbf{v}_{2,i} \cdot \mathbf{v}_{2,j} < 0$）から最良相互作用部位を特定し、Kabsch SVD法で最良配向を一発アナリティック算出（論文第2.3節）。
+* **8大溶媒Fiedlerプロファイル一括計算エンジン**: [`multi_solvent_fiedler_engine.py`](multi_solvent_fiedler_engine.py)
+  * 8溶媒中でのFiedler指標および溶解度プロファイルを一括評価（論文第2.2/3.1節）。
+
+### 2. 論文ベンチマーク検証スクリプト
+
+* **創薬医薬品PoC検証スクリプト**: [`run_pharmaceutical_drug_discovery_poc.py`](run_pharmaceutical_drug_discovery_poc.py)
+  * カルバマゼピン（CBZ）、ニコチンアミド（NICO）、D-マンニトール、テレフタル酸の FCAI 指標を算出（論文表1）。
+* **逆問題：8溶媒溶解度プロファイルからの構造逆推定**: [`fiedler_inverse_solubility_structure_reconstruction.py`](fiedler_inverse_solubility_structure_reconstruction.py)
+  * 8溶媒指紋ベクトル $\mathbf{y}_{\text{exp}}$ から、1.2秒未満で未知分子構造を逆特定（論文第3.2節）。
+* **混合溶媒（共溶媒）相図解析**: [`run_mixed_solvent_fractal_fiedler_analysis.py`](run_mixed_solvent_fractal_fiedler_analysis.py)
+  * Water-DMSO, Water-Ethanol 混合溶媒における非線形パーコレーションピークを解析（論文第3.3節）。
+
+---
+
+## 💻 Execution Example (実行手順)
+
 ```bash
+# Run Pharmaceutical Solubility Benchmark (Table 1)
 python3 run_pharmaceutical_drug_discovery_poc.py
-```
 
-### 例2: 8溶媒溶解度プロファイル一括計算
-```bash
+# Run Multi-Solvent Profile
 python3 example_multi_solvent_usage.py
 ```
