@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use this software or reference the preprint, please cite it as below."
+authors:
+  - family-names: "Honda"
+    given-names: "Yoshihiro"
+title: "Your_Repository_Name"
+version: "1.0.0"
+doi: "10.5281/zenodo.22804666"
+date-released: "2026-09-17"
+url: "https://github.com"
+preferred-citation:
+  type: article
+  authors:
+    - family-names: "Honda"
+      given-names: "Yoshihiro"
+  title: "Molecular Solubility, Hydration Shells, and Inverse Spectral Tomography via 3D Lone-Pair Fiedler Vector Optimization"
+  journal: "Zenodo"
+  year: 2026
+  month: 9
+  doi: "10.5281/zenodo.22804666"
