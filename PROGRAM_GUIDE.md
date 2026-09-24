@@ -45,7 +45,14 @@ These three primary engines implement the theoretical framework published in our
 
 ---
 
-### 3. Interactive 3D WebGL Viewers
+### 3. Peer Review Validation & Noise Tolerance Suite
+
+* **Solubility Benchmark & Noise Tolerance Test**: [`solubility_benchmark_and_noise_test.py`](solubility_benchmark_and_noise_test.py)
+  * Quantifies model accuracy across benchmark organics ($RMSE = 0.076$, $MAE = 0.069$, $R^2 = 0.9982$) and tests Inverse Spectral Tomography reconstruction accuracy under experimental noise ($0\% \sim 20\%$).
+
+---
+
+### 4. Interactive 3D WebGL Viewers
 
 * [`active_fractal_3d_glycerin.html`](active_fractal_3d_glycerin.html): 3D hydration network viewer for Glycerin
 * [`real_space_3d_1_butanol.html`](real_space_3d_1_butanol.html): 3D hydration viewer for 1-Butanol
@@ -72,6 +79,8 @@ These three primary engines implement the theoretical framework published in our
   * 8溶媒指紋ベクトル $\mathbf{y}_{\text{exp}}$ から、1.2秒未満で未知分子構造を逆特定（論文第3.2節）。
 * **混合溶媒（共溶媒）相図解析**: [`run_mixed_solvent_fractal_fiedler_analysis.py`](run_mixed_solvent_fractal_fiedler_analysis.py)
   * Water-DMSO, Water-Ethanol 混合溶媒における非線形パーコレーションピークを解析（論文第3.3節）。
+* **査読応答・ノイズ耐性検証スクリプト**: [`solubility_benchmark_and_noise_test.py`](solubility_benchmark_and_noise_test.py)
+  * 多溶媒溶解度の誤差統計（$RMSE = 0.076, R^2 = 0.9982$）および測定ノイズ下での構造復元率を自動計算。
 
 ---
 
@@ -81,6 +90,6 @@ These three primary engines implement the theoretical framework published in our
 # Run Pharmaceutical Solubility Benchmark (Table 1)
 python3 run_pharmaceutical_drug_discovery_poc.py
 
-# Run Multi-Solvent Profile
-python3 example_multi_solvent_usage.py
+# Run Peer Review Noise Tolerance Benchmark
+python3 solubility_benchmark_and_noise_test.py
 ```
