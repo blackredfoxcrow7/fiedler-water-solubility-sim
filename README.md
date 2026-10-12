@@ -78,7 +78,7 @@ python3 run_expanded_multi_solvent_validation_benchmark.py
 ## 👤 Author
 
 **Yoshihiro Honda (本多 義弘)**  
-Independent Researcher in Organic Chemistry & Computational Chemistry, Japan  
+Independent Researcher in Organic Chemistry, Japan  
 GitHub: [@blackredfoxcrow7](https://github.com/blackredfoxcrow7)  
 Publication DOI: [10.5281/zenodo.22804666](https://doi.org/10.5281/zenodo.22804666)  
 
